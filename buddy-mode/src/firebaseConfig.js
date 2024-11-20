@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 
@@ -11,8 +12,9 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+
+console.log('Firebase Database initialized successfully');
 
 export default database;
