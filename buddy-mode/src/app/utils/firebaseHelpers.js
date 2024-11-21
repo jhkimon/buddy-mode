@@ -1,6 +1,7 @@
-import { ref, push, set, get, query, equalTo, orderByChild } from 'firebase/database';
-import { database } from '../../firebaseConfig';
-import bcrypt from 'bcryptjs'; 
+import { ref, push, set, get, query, equalTo, orderByChild, onValue } from 'firebase/database';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { database, auth, firestore } from '../../firebaseConfig';
+import { doc, setDoc, getDocs, collection } from "firebase/firestore";
 
 export const addToQueue = async (user) => {
     const queueRef = ref(database, 'waiting');
@@ -17,47 +18,52 @@ export const listenToQueue = (callback) => {
     });
 };
 
-export const signup = async ({ name, id, password }) => {
-    const usersRef = ref(database, 'users');
-  
-    // ID 중복 체크
-    const userQuery = query(usersRef, orderByChild('id'), equalTo(id));
-    const snapshot = await get(userQuery);
-  
-    if (snapshot.exists()) {
-      throw new Error('이미 존재하는 아이디입니다.');
-    }
-  
-    // 비밀번호 해싱
-    const hashedPassword = await bcrypt.hash(password, 10);
-  
-    // 새 사용자 추가
-    const newUserRef = push(usersRef);
-    await set(newUserRef, { name, id, password: hashedPassword });
-  
-    return { message: '회원가입 성공' };
-  };
-  
-  /*로그인*/
-  export const login = async ({ id, password }) => {
-    const usersRef = ref(database, 'users');
-  
-    // ID 검색
-    const userQuery = query(usersRef, orderByChild('id'), equalTo(id));
-    const snapshot = await get(userQuery);
-  
-    if (!snapshot.exists()) {
-      throw new Error('존재하지 않는 아이디입니다.');
-    }
-  
-    // 사용자 데이터 가져오기
-    const userData = Object.values(snapshot.val())[0];
-  
-    // 비밀번호 검증
-    const isPasswordValid = await bcrypt.compare(password, userData.password);
-    if (!isPasswordValid) {
-      throw new Error('비밀번호가 일치하지 않습니다.');
-    }
-  
-    return { message: '로그인 성공', user: { id: userData.id, name: userData.name } };
-  };
+// 회원가입: Authentication + Realtime Database
+export const signup = async (email, name, password) => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Firebase Authentication에 이름 저장
+    await updateProfile(user, { displayName: name });
+
+    // Realtime Database에 사용자 정보 저장
+    const userRef = ref(database, `users/${user.uid}`);
+    await set(userRef, { email, name, uid: user.uid });
+
+    return user;
+};
+
+  // 로그인 함수
+export const login = async (email, password) => {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+};
+
+// Realtime Database에서 사용자 목록 가져오기
+export const getAllUsers = async () => {
+    const usersRef = ref(database, "users");
+    const snapshot = await get(usersRef);
+
+    const users = snapshot.val() || {};
+    return Object.values(users); // 객체를 배열로 변환
+};
+
+  // 메시지 추가
+export const addMessage = async (roomId, sender, content) => {
+    const chatRef = ref(database, `chats/${roomId}/messages`);
+    const newMessageRef = push(chatRef);
+    await set(newMessageRef, {
+        sender,
+        content,
+        timestamp: Date.now(),
+    });
+};
+
+// 메시지 리스너
+export const listenToMessages = (roomId, callback) => {
+    const chatRef = ref(database, `chats/${roomId}/messages`);
+    return onValue(chatRef, (snapshot) => {
+        const messages = snapshot.val() || {};
+        callback(Object.values(messages));
+    });
+};

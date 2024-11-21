@@ -1,46 +1,54 @@
-let users = [];
+let users = {}; // 연결된 사용자들 (키: username)
 
-export default function handler(req, res) {
-    if (req.method === 'GET') {
-        res.status(200).end();
-        return;
-    }
-
-    const { server } = res.socket;
+export const setupWebSocketServer = (server) => {
     if (!server.websocketServer) {
-        const WebSocket = require('ws');
+        const WebSocket = require("ws");
         const wss = new WebSocket.Server({ noServer: true });
 
-        server.on('upgrade', (req, socket, head) => {
+        // HTTP 업그레이드 이벤트를 WebSocket 연결로 처리
+        server.on("upgrade", (req, socket, head) => {
             wss.handleUpgrade(req, socket, head, (ws) => {
-                wss.emit('connection', ws, req);
+                wss.emit("connection", ws, req);
             });
         });
 
-        wss.on('connection', (ws) => {
-            ws.on('message', (message) => {
+        // WebSocket 연결 처리
+        wss.on("connection", (ws, req) => {
+            let username = null;
+
+            ws.on("message", (message) => {
                 const parsedMessage = JSON.parse(message);
-                if (parsedMessage.type === 'join') {
-                    users.push(ws);
-                    if (users.length === 2) {
-                        users.forEach((user) => user.send(JSON.stringify({ type: 'startChat' })));
+
+                if (parsedMessage.type === "join") {
+                    // 사용자가 방에 연결
+                    username = parsedMessage.username;
+                    users[username] = ws;
+                    console.log(`${username} joined the WebSocket server.`);
+                }
+
+                if (parsedMessage.type === "offer" || parsedMessage.type === "answer") {
+                    // SDP Offer/Answer 전달
+                    const targetUser = parsedMessage.target;
+                    if (users[targetUser]) {
+                        users[targetUser].send(JSON.stringify(parsedMessage));
                     }
-                } else if (parsedMessage.type === 'message') {
-                    users.forEach((user) => {
-                        if (user !== ws) {
-                            user.send(JSON.stringify({ type: 'message', data: parsedMessage.data }));
-                        }
-                    });
+                }
+
+                if (parsedMessage.type === "candidate") {
+                    // ICE Candidate 전달
+                    const targetUser = parsedMessage.target;
+                    if (users[targetUser]) {
+                        users[targetUser].send(JSON.stringify(parsedMessage));
+                    }
                 }
             });
 
-            ws.on('close', () => {
-                users = users.filter((user) => user !== ws);
+            ws.on("close", () => {
+                console.log(`${username} disconnected.`);
+                delete users[username];
             });
         });
 
         server.websocketServer = wss;
     }
-
-    res.status(200).end();
-}
+};
