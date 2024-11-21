@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@zoom/videosdk": "^1.12.12",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "firebase": "^11.0.2",
     "jsrsasign": "^11.1.0",
