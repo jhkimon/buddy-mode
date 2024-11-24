@@ -1,36 +1,57 @@
 "use client";
 
-import { useState } from 'react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { login } from "../utils/firebaseHelpers";
 
 export default function LoginPage() {
-  const [form, setForm] = useState({ id: '', password: '' });
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const router = useRouter();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+    const handleLogin = async () => {
+        try {
+            const user = await login(email, password);
+            localStorage.setItem("currentUser", JSON.stringify({ uid: user.uid, email: user.email, name: user.displayName }));
+            alert("로그인 성공!");
+            router.push("/"); // 기본 페이지로 이동
+        } catch (error) {
+            alert(`로그인 실패: ${error.message}`);
+        }
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-      alert(`로그인 성공! 환영합니다, ${data.user.name}`);
-    } catch (error) {
-      alert(`로그인 실패: ${error.message}`);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <h1>로그인</h1>
-      <input name="id" placeholder="아이디" onChange={handleChange} required />
-      <input name="password" type="password" placeholder="비밀번호" onChange={handleChange} required />
-      <button type="submit">로그인</button>
-    </form>
-  );
+    return (
+        <div style={{ padding: "2rem", textAlign: "center" }}>
+            <h1>로그인</h1>
+            <input
+                type="email"
+                placeholder="이메일"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ display: "block", margin: "1rem auto", padding: "0.5rem", width: "80%" }}
+            />
+            <input
+                type="password"
+                placeholder="비밀번호"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ display: "block", margin: "1rem auto", padding: "0.5rem", width: "80%" }}
+            />
+            <div style={{ marginTop: "1rem" }}>
+                <button
+                    onClick={handleLogin}
+                    style={{
+                        padding: "0.5rem 1rem",
+                        backgroundColor: "#007bff",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                    }}
+                >
+                    로그인
+                </button>
+            </div>
+        </div>
+    );
 }

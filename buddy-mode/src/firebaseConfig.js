@@ -1,5 +1,7 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 if (process.env.NODE_ENV !== 'production') {
     await import('dotenv/config');
@@ -24,8 +26,9 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 console.log('Firebase App Initialized:', app);
 
 const database = getDatabase(app);
-
+const auth = getAuth(app);
+const firestore = getFirestore(app);
 // 디버깅: Firebase Database 객체 확인
 console.log('Firebase Database Initialized:', database);
 
-export { app, database };
+export { app, auth, database, firestore };
