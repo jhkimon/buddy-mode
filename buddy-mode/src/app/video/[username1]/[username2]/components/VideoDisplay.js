@@ -13,8 +13,7 @@ export const VideoWrapper = styled.div`
 export const VideoContainer = styled.div`
     position: relative;
     width: 100%;
-    height: 330px;
-    width: 440px;
+    width: 430px;
     aspect-ratio: 4 / 3;
     border-radius: 12px;
     overflow: hidden;
@@ -71,7 +70,7 @@ export const VideoDisplay = ({ localVideoRef, remoteVideoRef, username1, usernam
         };
 
         // 주기적으로 상태 체크
-        const interval = setInterval(checkRemoteVideo, 1000);
+        const interval = setInterval(checkRemoteVideo, 500);
 
         // 초기 상태 체크
         checkRemoteVideo();

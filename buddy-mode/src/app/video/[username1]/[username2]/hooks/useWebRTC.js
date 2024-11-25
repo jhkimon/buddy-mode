@@ -1,3 +1,4 @@
+// useWebRTC.js
 import { useState, useEffect } from 'react';
 import {
     sendOffer,
@@ -13,8 +14,6 @@ import {
 export const useWebRTC = (username1, username2, localStream) => {
     const [peerConnection, setPeerConnection] = useState(null);
     const [connectionStatus, setConnectionStatus] = useState('initializing');
-    const [isSharingScreen, setIsSharingScreen] = useState(false);
-    const [screenStream, setScreenStream] = useState(null);
 
     useEffect(() => {
         if (!username1 || !username2 || !localStream) return;
@@ -30,7 +29,6 @@ export const useWebRTC = (username1, username2, localStream) => {
 
         setPeerConnection(pc);
 
-        // Add local stream tracks to peer connection
         localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
 
         pc.onconnectionstatechange = () => setConnectionStatus(pc.connectionState);
@@ -44,7 +42,7 @@ export const useWebRTC = (username1, username2, localStream) => {
         };
 
         const unsubscribeOffer = listenToOffer(username1, async (offer) => {
-            if (offer && offer.type === 'offer' && offer.sdp) {
+            if (offer?.type === 'offer') {
                 try {
                     await pc.setRemoteDescription(new RTCSessionDescription(offer));
                     const answer = await pc.createAnswer();
@@ -57,7 +55,7 @@ export const useWebRTC = (username1, username2, localStream) => {
         });
 
         const unsubscribeAnswer = listenToAnswer(username1, async (answer) => {
-            if (answer && answer.type === 'answer' && answer.sdp) {
+            if (answer?.type === 'answer') {
                 try {
                     await pc.setRemoteDescription(new RTCSessionDescription(answer));
                 } catch (error) {
@@ -81,7 +79,7 @@ export const useWebRTC = (username1, username2, localStream) => {
                 try {
                     const offer = await pc.createOffer();
                     await pc.setLocalDescription(offer);
-                    await sendOffer(username2, offer);
+                    sendOffer(username2, offer);
                 } catch (error) {
                     console.error('Failed to create or send offer:', error);
                 }
@@ -96,59 +94,21 @@ export const useWebRTC = (username1, username2, localStream) => {
             unsubscribeOffer();
             unsubscribeAnswer();
             unsubscribeCandidates();
-            if (pc) pc.close();
-            if (screenStream) {
-                screenStream.getTracks().forEach((track) => track.stop());
-            }
+            pc.close();
         };
-    }, [username1, username2, localStream, screenStream]);
+    }, [username1, username2, localStream]);
 
-    const startScreenShare = async () => {
-        console.log('Attempting to start screen share');
-        try {
-            const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-            console.log('Screen sharing stream initialized:', stream);
-            setScreenStream(stream);
-
-            const screenTrack = stream.getVideoTracks()[0];
+    // Expose a function to replace the video track
+    const replaceVideoTrack = (newTrack) => {
+        if (peerConnection) {
             const sender = peerConnection.getSenders().find((s) => s.track.kind === 'video');
-            if (sender) {
-                await sender.replaceTrack(screenTrack);
-                console.log('Screen track replaced in PeerConnection');
-            }
-
-            setIsSharingScreen(true);
-
-            screenTrack.onended = () => {
-                console.log('Screen sharing stopped by user');
-                stopScreenShare();
-            };
-        } catch (error) {
-            console.error('Failed to start screen sharing:', error);
+            if (sender) sender.replaceTrack(newTrack);
         }
-    };
-
-    const stopScreenShare = () => {
-        if (screenStream) {
-            screenStream.getTracks().forEach((track) => track.stop());
-            setScreenStream(null);
-        }
-
-        // Replace the screen track with the original camera track
-        const cameraTrack = localStream.getVideoTracks()[0];
-        const sender = peerConnection.getSenders().find((s) => s.track.kind === 'video');
-        if (sender) {
-            sender.replaceTrack(cameraTrack);
-        }
-
-        setIsSharingScreen(false);
     };
 
     return {
         peerConnection,
         connectionStatus,
-        isSharingScreen,
-        startScreenShare,
-        stopScreenShare,
+        replaceVideoTrack,
     };
 };

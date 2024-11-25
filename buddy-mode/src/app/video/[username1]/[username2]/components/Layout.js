@@ -17,11 +17,22 @@ export const ContentWrapper = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: ${(props) => props.theme.spacing.xl};
+    padding-left: ${(props) => props.theme.spacing.lg};
     overflow: hidden;
 `;
 
+export const VideoWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${(props) => props.theme.spacing.md};
+    width: 430px;
+`;
+
 export const SharedContent = styled.div`
-    width: 30%;
+    width: 430px;
     background-color: ${(props) => props.theme.colors.sharedBg};
+
+    @media (max-width: 800px) {
+        display: none;
+    }
 `;

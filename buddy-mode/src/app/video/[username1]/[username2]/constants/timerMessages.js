@@ -2,7 +2,7 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 
 export const TIMER_MESSAGES = {
     0: {
-        message: { text1: '연결 중입니다...', text2: '', icon1: faToggleOff, icon2: faToggleOff },
+        message: { text1: '상대 버디를 기다리고 있습니다...', text2: '', icon1: faToggleOff, icon2: faToggleOff },
     },
     1: {
         message: (remainingTime) => ({

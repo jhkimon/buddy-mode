@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TIMER_MESSAGES, formatTime } from '../constants/timerMessages';
 
-export const useTimer = (isPartnerConnected) => {
+export const useTimer = (isPartnerConnected, connectionStatus) => {
     const [timerStage, setTimerStage] = useState(0);
     const [remainingTime, setRemainingTime] = useState(10);
     const [headerMessage, setHeaderMessage] = useState(TIMER_MESSAGES[0].message);
@@ -9,7 +9,8 @@ export const useTimer = (isPartnerConnected) => {
     useEffect(() => {
         let timerInterval;
 
-        if (isPartnerConnected && timerStage > 0) {
+        // 타이머가 두 명 다 접속했을 때만 작동
+        if (isPartnerConnected && connectionStatus === 'connected' && timerStage > 0) {
             timerInterval = setInterval(() => {
                 setRemainingTime((prevTime) => {
                     if (prevTime <= 0) {
@@ -28,10 +29,10 @@ export const useTimer = (isPartnerConnected) => {
         }
 
         return () => clearInterval(timerInterval);
-    }, [isPartnerConnected, timerStage]);
+    }, [isPartnerConnected, connectionStatus, timerStage]);
 
     useEffect(() => {
-        if (!isPartnerConnected) {
+        if (!isPartnerConnected || connectionStatus !== 'connected') {
             setHeaderMessage(TIMER_MESSAGES[0].message);
         } else if (TIMER_MESSAGES[timerStage]) {
             const messageFn = TIMER_MESSAGES[timerStage].message;
@@ -49,14 +50,14 @@ export const useTimer = (isPartnerConnected) => {
                 setHeaderMessage(textAndIcon);
             }
         }
-    }, [isPartnerConnected, timerStage, remainingTime]);
+    }, [isPartnerConnected, connectionStatus, timerStage, remainingTime]);
 
     useEffect(() => {
-        if (isPartnerConnected) {
+        if (isPartnerConnected && connectionStatus === 'connected') {
             setTimerStage(1);
             setRemainingTime(10);
         }
-    }, [isPartnerConnected]);
+    }, [isPartnerConnected, connectionStatus]);
 
     return { timerStage, remainingTime, headerMessage };
 };

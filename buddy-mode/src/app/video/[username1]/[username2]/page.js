@@ -1,3 +1,4 @@
+// VideoChatPage.js
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
@@ -6,10 +7,13 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './style/videoStyles';
 import { Header } from './components/Header';
 import { VideoDisplay } from './components/VideoDisplay';
+import ScreenShareDisplay from './components/ScreenShareDisplay';
+
 import { Controls } from './components/Controls';
 import { Container, ContentWrapper, SharedContent } from './components/Layout';
 import { useVideoStream } from './hooks/useVideoStream';
 import { useWebRTC } from './hooks/useWebRTC';
+import { useScreenShare } from './hooks/useScreenShare'; // Import the new hook
 import { useTimer } from './hooks/useTimer';
 
 export default function VideoChatPage() {
@@ -20,15 +24,19 @@ export default function VideoChatPage() {
 
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
-    const screenVideoRef = useRef(null); // 화면 공유를 위한 Ref
+    const screenVideoRef = useRef(null);
     const router = useRouter();
 
     const { localStream, isMicOn, isCameraOn, toggleMic, toggleCamera } = useVideoStream();
 
-    const { peerConnection, connectionStatus, isSharingScreen, startScreenShare, stopScreenShare, screenStream } =
-        useWebRTC(username1, username2, localStream);
+    const { peerConnection, connectionStatus, replaceVideoTrack } = useWebRTC(username1, username2, localStream);
 
-    const { headerMessage } = useTimer(isPartnerConnected);
+    const { isSharingScreen, screenStream, startScreenShare, stopScreenShare } = useScreenShare(
+        localStream,
+        replaceVideoTrack
+    );
+
+    const { headerMessage } = useTimer(isPartnerConnected, connectionStatus);
 
     useEffect(() => {
         async function fetchParams() {
@@ -40,7 +48,7 @@ export default function VideoChatPage() {
         }
 
         fetchParams();
-        setTimeout(() => setIsPartnerConnected(true), 3000);
+        setTimeout(() => setIsPartnerConnected(true), 10000);
     }, [params]);
 
     useEffect(() => {
@@ -59,7 +67,7 @@ export default function VideoChatPage() {
         }
     }, [peerConnection]);
 
-    // 화면 공유 스트림을 화면에 연결
+    // Use the screenStream from the useScreenShare hook
     useEffect(() => {
         if (screenStream && screenVideoRef.current) {
             console.log('Setting screenStream to video element', screenStream);
@@ -69,9 +77,20 @@ export default function VideoChatPage() {
         }
     }, [screenStream]);
 
+    const toggleScreenShare = () => {
+        if (isSharingScreen) {
+            stopScreenShare();
+        } else {
+            startScreenShare();
+        }
+    };
+
     const endCall = () => {
         if (localStream) {
             localStream.getTracks().forEach((track) => track.stop());
+        }
+        if (screenStream) {
+            screenStream.getTracks().forEach((track) => track.stop());
         }
         router.push(`/space/${encodeURIComponent(username1)}/${encodeURIComponent(username2)}`);
     };
@@ -89,60 +108,19 @@ export default function VideoChatPage() {
                         isCameraOn={isCameraOn}
                     />
                     <SharedContent>
-                        {isSharingScreen ? (
-                            <video
-                                ref={screenVideoRef}
-                                autoPlay
-                                playsInline
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'contain',
-                                    borderRadius: '8px',
-                                    backgroundColor: '#f4f4f4',
-                                }}
-                            />
-                        ) : (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    height: '100%',
-                                    backgroundColor: '#f4f4f4',
-                                    borderRadius: '8px',
-                                    color: '#333',
-                                    fontSize: '16px',
-                                }}
-                            >
-                                화면 공유가 활성화되지 않았습니다
-                            </div>
-                        )}
+                        <ScreenShareDisplay isSharingScreen={isSharingScreen} screenVideoRef={screenVideoRef} />
                     </SharedContent>
                 </ContentWrapper>
+
                 <Controls
                     isCameraOn={isCameraOn}
                     isMicOn={isMicOn}
+                    isScreenOn={isSharingScreen}
                     toggleCamera={toggleCamera}
                     toggleMic={toggleMic}
+                    toggleScreen={toggleScreenShare}
                     onEndCall={endCall}
                 />
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-                    <button
-                        onClick={isSharingScreen ? stopScreenShare : startScreenShare}
-                        style={{
-                            padding: '0.5rem 1rem',
-                            fontSize: '1rem',
-                            cursor: 'pointer',
-                            backgroundColor: isSharingScreen ? '#f44336' : '#4CAF50',
-                            color: '#ffffff',
-                            border: 'none',
-                            borderRadius: '5px',
-                        }}
-                    >
-                        {isSharingScreen ? '화면 공유 중지' : '화면 공유 시작'}
-                    </button>
-                </div>
             </Container>
         </ThemeProvider>
     );
