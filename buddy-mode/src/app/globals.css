@@ -1,4 +1,18 @@
 /* 기본 스타일 초기화 */
+
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('/fonts/Paperlogy.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Chab';
+    src: url('/fonts/chab.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 *,
 *::before,
 *::after {

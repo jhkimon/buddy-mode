@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react';
 import { addMessage, listenToMessages } from '../../../utils/firebaseHelpers';
 import Chat from '../../../components/chat';
-import DesignPage from '@/app/components/page';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowPointer,
     faBook,
@@ -13,10 +11,10 @@ import {
     faArrowRight,
     faStore,
 } from '@fortawesome/free-solid-svg-icons';
-import { BUTTON_STYLES } from '@/constants/buttonStyles';
+import { BUTTON_STYLES } from '@/style/buttonStyles';
 import GNB from '../../../components/common/gnb'; // GNB 가져오기
 import FlexibleButton from '../../../components/common/button';
-import { CHAT_STYLES } from '../../../../constants/chatStyles';
+import { CHAT_STYLES } from '../../../../style/chatStyles';
 import styles from './space.module.css';
 import Image from 'next/image';
 
@@ -80,6 +78,11 @@ export default function ChatPage({ params }) {
         window.location.href = `/video/${encodeURIComponent(username1)}/${encodeURIComponent(username2)}`;
     };
 
+    // 교재 둘러보기 핸들러
+    const handleReels = () => {
+        window.location.href = `/reels/${encodeURIComponent(username1)}/${encodeURIComponent(username2)}`;
+    };
+
     return (
         <div>
             {/* GNB 추가 */}
@@ -135,6 +138,7 @@ export default function ChatPage({ params }) {
                         <FlexibleButton
                             text="오늘의 교재 확인하기"
                             icon={faBook}
+                            onClick={handleReels}
                             {...BUTTON_STYLES.PURPLE}
                             width="100%"
                         />

@@ -4,9 +4,9 @@ import React from 'react';
 import styled from 'styled-components';
 import FlexibleButton from './common/button';
 import { faArrowPointer } from '@fortawesome/free-solid-svg-icons';
-import { BUTTON_STYLES } from '@/constants/buttonStyles';
+import { BUTTON_STYLES } from '@/style/buttonStyles';
 import BuddyCard from './common/buddyCard';
-import { BUDDY_CARD_STYLES } from '@/constants/buddyCardStyles';
+import { BUDDY_CARD_STYLES } from '@/style/buddyCardStyles';
 
 const Container = styled.div`
     display: flex;

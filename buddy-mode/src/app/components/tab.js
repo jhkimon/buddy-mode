@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '@/constants/colors';
+import { COLORS } from '@/style/colors';
 
 const Content = styled.div.withConfig({
     shouldForwardProp: (prop) => prop !== 'istabActive',
