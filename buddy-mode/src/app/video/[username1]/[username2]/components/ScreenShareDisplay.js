@@ -3,10 +3,9 @@ import styled from 'styled-components';
 
 const ScreenShareContainer = styled.div`
     position: relative;
-    width: 430px;
+    width: 1000px;
     height: 660px;
     border-radius: 12px;
-    overflow: hidden;
     background-color: ${(props) => props.theme.colors.white};
 `;
 

@@ -1,19 +1,21 @@
-// VideoChatPage.js
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, Component } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './style/videoStyles';
+
+// Components
 import { Header } from './components/Header';
 import { VideoDisplay } from './components/VideoDisplay';
 import ScreenShareDisplay from './components/ScreenShareDisplay';
-
 import { Controls } from './components/Controls';
 import { Container, ContentWrapper, SharedContent } from './components/Layout';
+
+// Hooks
 import { useVideoStream } from './hooks/useVideoStream';
 import { useWebRTC } from './hooks/useWebRTC';
-import { useScreenShare } from './hooks/useScreenShare'; // Import the new hook
+import { useScreenShare } from './hooks/useScreenShare';
 import { useTimer } from './hooks/useTimer';
 
 export default function VideoChatPage() {
@@ -22,19 +24,29 @@ export default function VideoChatPage() {
     const [username2, setUsername2] = useState(null);
     const [isPartnerConnected, setIsPartnerConnected] = useState(false);
 
+    // 각자 화면
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
+
+    // 공유 화면
     const screenVideoRef = useRef(null);
+    const remoteScreenVideoRef = useRef(null);
+
     const router = useRouter();
 
     const { localStream, isMicOn, isCameraOn, toggleMic, toggleCamera } = useVideoStream();
 
-    const { peerConnection, connectionStatus, replaceVideoTrack } = useWebRTC(username1, username2, localStream);
+    const { peerConnection, connectionStatus } = useWebRTC(username1, username2, localStream);
+    const roomId = [username1, username2].sort().join('_');
 
-    const { isSharingScreen, screenStream, startScreenShare, stopScreenShare } = useScreenShare(
-        localStream,
-        replaceVideoTrack
-    );
+    const {
+        isSharingScreen,
+        isReceivingScreenShare,
+        screenStream,
+        remoteScreenStream,
+        startScreenShare,
+        stopScreenShare,
+    } = useScreenShare(username1, roomId, peerConnection);
 
     const { headerMessage } = useTimer(isPartnerConnected, connectionStatus);
 
@@ -67,15 +79,26 @@ export default function VideoChatPage() {
         }
     }, [peerConnection]);
 
-    // Use the screenStream from the useScreenShare hook
+    // Local Screen Share Video Stream
     useEffect(() => {
         if (screenStream && screenVideoRef.current) {
-            console.log('Setting screenStream to video element', screenStream);
             screenVideoRef.current.srcObject = screenStream;
-        } else {
-            console.log('No screenStream available');
         }
     }, [screenStream]);
+
+    // Remote Screen Share Video Stream
+    useEffect(() => {
+        if (remoteScreenStream && remoteScreenVideoRef.current) {
+            remoteScreenVideoRef.current.srcObject = remoteScreenStream;
+        }
+    }, [remoteScreenStream]);
+
+    useEffect(() => {
+        console.log('isSharingScreen:', isSharingScreen);
+        console.log('isReceivingScreenShare:', isReceivingScreenShare);
+        console.log('screenVideoRef:', screenVideoRef);
+        console.log('remoteScreenVideoRef:', remoteScreenVideoRef);
+    }, [isSharingScreen, isReceivingScreenShare, screenVideoRef, remoteScreenVideoRef]);
 
     const toggleScreenShare = () => {
         if (isSharingScreen) {
@@ -91,6 +114,9 @@ export default function VideoChatPage() {
         }
         if (screenStream) {
             screenStream.getTracks().forEach((track) => track.stop());
+        }
+        if (remoteScreenStream) {
+            remoteScreenStream.getTracks().forEach((track) => track.stop());
         }
         router.push(`/space/${encodeURIComponent(username1)}/${encodeURIComponent(username2)}`);
     };
@@ -108,7 +134,15 @@ export default function VideoChatPage() {
                         isCameraOn={isCameraOn}
                     />
                     <SharedContent>
-                        <ScreenShareDisplay isSharingScreen={isSharingScreen} screenVideoRef={screenVideoRef} />
+                        {isSharingScreen && (
+                            <ScreenShareDisplay isSharingScreen={isSharingScreen} screenVideoRef={screenVideoRef} />
+                        )}
+                        {isReceivingScreenShare && (
+                            <ScreenShareDisplay
+                                isSharingScreen={isReceivingScreenShare}
+                                screenVideoRef={remoteScreenVideoRef}
+                            />
+                        )}
                     </SharedContent>
                 </ContentWrapper>
 

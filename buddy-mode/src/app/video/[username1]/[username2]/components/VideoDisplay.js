@@ -7,7 +7,6 @@ export const VideoWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${(props) => props.theme.spacing.md};
-    width: 50%;
 `;
 
 export const VideoContainer = styled.div`
