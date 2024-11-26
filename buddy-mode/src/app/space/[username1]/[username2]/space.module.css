@@ -25,7 +25,7 @@
 
 .bannerText {
     position: absolute;
-    margin-top: -150px;
+    margin-top: -180px;
     display: flex; /* 텍스트 요소를 Flexbox로 감싸기 */
     flex-direction: column; /* 수직 정렬 */
     align-items: center; /* 가로축 중앙 정렬 */
