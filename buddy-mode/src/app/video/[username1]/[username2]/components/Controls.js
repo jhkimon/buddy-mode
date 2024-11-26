@@ -8,7 +8,7 @@ import {
     faStop,
     faPlay,
 } from '@fortawesome/free-solid-svg-icons';
-import { BUTTON_STYLES } from '@/style/buttonStyles';
+import { BUTTON_STYLES } from '@/constants/buttonStyles';
 import styled from 'styled-components';
 
 export const ControlsWrapper = styled.div`

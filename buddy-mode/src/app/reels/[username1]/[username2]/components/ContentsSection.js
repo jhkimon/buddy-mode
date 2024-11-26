@@ -2,7 +2,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import FlexibleButton from '@/app/components/common/button';
 import { faDownload, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { BUTTON_STYLES } from '@/style/buttonStyles';
+import { BUTTON_STYLES } from '@/constants/buttonStyles';
 
 const StyledImage = styled(Image)`
     object-fit: cover;

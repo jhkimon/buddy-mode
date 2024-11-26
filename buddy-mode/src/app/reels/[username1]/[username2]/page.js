@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { BUTTON_STYLES } from '@/style/buttonStyles';
+import { BUTTON_STYLES } from '@/constants/buttonStyles';
 import GNB from '@/app/components/common/gnb';
 import FlexibleButton from '@/app/components/common/button';
 import Banner from './components/Banner';
@@ -40,6 +40,8 @@ export default function ReelsPage({ params }) {
     const handleVideoChat = () => {
         window.location.href = `/video/${encodeURIComponent(username1)}/${encodeURIComponent(username2)}`;
     };
+
+    
 
     return (
         <Container>

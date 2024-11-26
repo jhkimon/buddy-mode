@@ -11,10 +11,10 @@ import {
     faArrowRight,
     faStore,
 } from '@fortawesome/free-solid-svg-icons';
-import { BUTTON_STYLES } from '@/style/buttonStyles';
+import { BUTTON_STYLES } from '@/constants/buttonStyles';
 import GNB from '../../../components/common/gnb'; // GNB 가져오기
 import FlexibleButton from '../../../components/common/button';
-import { CHAT_STYLES } from '../../../../style/chatStyles';
+import { CHAT_STYLES } from '../../../../constants/chatStyles';
 import styles from './space.module.css';
 import Image from 'next/image';
 
@@ -204,10 +204,10 @@ export default function ChatPage({ params }) {
                         <div className={styles.forestshopText}>버디 스페이스 꾸미기</div>
                         <div className={styles.shopText1}>
                             <Image src="/images/leaf.png" className={styles.share} alt="share" width={13} height={13} />
-                            Class Streak으로 아이템을 구매해서 채팅
+                            Class Streak으로 아이템을 구매해서
                         </div>
                         <div className={styles.shopText2}>
-                            <p>창과 버디포레스트를 꾸며 보세요!</p>
+                            <p>채팅창과 버디포레스트를 꾸며 보세요!</p>
                         </div>
                         <Image
                             src="/images/Online Shop.png"
@@ -217,12 +217,7 @@ export default function ChatPage({ params }) {
                             height={90}
                         />
                         <div className={styles.shopButton}>
-                            <FlexibleButton
-                                text="상점 들어가기"
-                                icon={faStore}
-                                {...BUTTON_STYLES.BLUE_LARGE}
-                                width="80%"
-                            />
+                            <FlexibleButton text="상점 들어가기" icon={faStore} {...BUTTON_STYLES.BLUE_LARGE} width="80%" onClick={() => alert("준비중입니다!")} />
                         </div>
                     </div>
                 </div>

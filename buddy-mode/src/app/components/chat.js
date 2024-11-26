@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '@/style/colors';
+import { COLORS } from '@/constants/colors';
 
 const ChatBox = styled.div`
     background-color: ${(props) => (props.$styleType === 'MY' ? COLORS.CHAT_MY : COLORS.CHAT_BUDDY)};

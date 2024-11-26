@@ -25,7 +25,7 @@
 
 .bannerText {
     position: absolute;
-    margin-top: -150px;
+    margin-top: -180px;
     display: flex; /* 텍스트 요소를 Flexbox로 감싸기 */
     flex-direction: column; /* 수직 정렬 */
     align-items: center; /* 가로축 중앙 정렬 */
@@ -99,7 +99,6 @@
     flex-direction: column; /* 텍스트를 수직 정렬 */
     justify-content: flex-end; /* 텍스트를 아래쪽으로 정렬 */
     height: 100%; /* 컨테이너 높이를 부모 요소에 맞게 설정 */
-    margin-bottom: -30px; /* 추가적인 마진 제거 */
 }
 
 .buddyName {
@@ -236,7 +235,8 @@
 }
 
 .share {
-    margin-left: 90px;
+    align-self: flex-end;
+    margin-left: 60px;
     margin-bottom: -3.5px;
 }
 
@@ -263,11 +263,11 @@
     margin-top: 8px;
     align-self: flex-start;
     font-size: 11px;
-    margin-left: -60px;
+    margin-left: -30px;
 }
 .shopText2 {
     font-family: 'Pretendard';
-    margin-top: -12px;
+    margin-top: 0;
     font-size: 11px;
     align-self: flex-start;
     margin-left: 30px;

@@ -8,7 +8,7 @@ const DivWrapper = styled.div`
     color: ${(props) => props.$textColor};
     padding: 8px 10px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: bold;
     cursor: pointer;
     display: flex;
