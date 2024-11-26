@@ -16,8 +16,8 @@ import {
     faDownload,
     faStop,
 } from '@fortawesome/free-solid-svg-icons';
-import { BUTTON_STYLES } from '@/constants/buttonStyles';
-import { CHAT_STYLES } from '@/constants/chatStyles';
+import { BUTTON_STYLES } from '@/style/buttonStyles';
+import { CHAT_STYLES } from '@/style/chatStyles';
 import GNB from './common/gnb';
 import Tab from './tab';
 import ProfileImage from './profileImage';
