@@ -56,7 +56,9 @@ const GNB = () => {
     return (
         <GNBContainer>
             <LeftSection>
-                <img src="/images/icon_brand.png" alt="Brand Icon" />
+                <Link href="/">
+                    <img src="/images/icon_brand.png" alt="Brand Icon"      />
+                </Link>
             </LeftSection>
             <CenterSection>
                 <Link href="#buddy" isActive={activetab === 0} onClick={() => setActivetab(0)}>

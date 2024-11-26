@@ -1,7 +1,7 @@
 import { ref, push, set, get, query, equalTo, orderByChild, onValue } from 'firebase/database';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { database, auth, firestore } from '../../firebaseConfig';
-import { doc, setDoc, getDocs, collection } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 
 export const addToQueue = async (user) => {
     const queueRef = ref(database, 'waiting');
@@ -33,7 +33,7 @@ export const signup = async (email, name, password) => {
     return user;
 };
 
-  // 로그인 함수
+// 로그인 함수
 export const login = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
@@ -41,14 +41,14 @@ export const login = async (email, password) => {
 
 // Realtime Database에서 사용자 목록 가져오기
 export const getAllUsers = async () => {
-    const usersRef = ref(database, "users");
+    const usersRef = ref(database, 'users');
     const snapshot = await get(usersRef);
 
     const users = snapshot.val() || {};
     return Object.values(users); // 객체를 배열로 변환
 };
 
-  // 메시지 추가
+// 메시지 추가
 export const addMessage = async (roomId, sender, content) => {
     const chatRef = ref(database, `chats/${roomId}/messages`);
     const newMessageRef = push(chatRef);

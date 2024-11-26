@@ -1,0 +1,61 @@
+/* 기본 스타일 초기화 */
+
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('/fonts/Paperlogy.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Chab';
+    src: url('/fonts/chab.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* html 및 body 기본 설정 */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0; /* 기본 margin 제거 */
+    padding: 0; /* 기본 padding 제거 */
+    background-color: #ffffff; /* 기본 배경색 */
+    font-family: 'Arial', sans-serif;
+    color: #333333;
+}
+
+/* 링크 스타일 초기화 */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 이미지 및 미디어 기본 스타일 */
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 스크롤바 스타일 (옵션) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f4f4f4;
+}

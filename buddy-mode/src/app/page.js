@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
 import { getAllUsers } from "./utils/firebaseHelpers";
@@ -21,7 +21,7 @@ export default function ChatTest() {
 
     // 로그인한 사용자 정보 가져오기
     useEffect(() => {
-        const user = localStorage.getItem("currentUser");
+        const user = localStorage.getItem('currentUser');
         if (user) {
             setCurrentUser(JSON.parse(user));
         }
@@ -33,9 +33,7 @@ export default function ChatTest() {
             const allUsers = await getAllUsers();
 
             // 현재 사용자 제외
-            const filteredUsers = allUsers.filter(
-                (user) => user.name !== currentUser?.name
-            );
+            const filteredUsers = allUsers.filter((user) => user.name !== currentUser?.name);
 
             setProfiles(filteredUsers);
         };
@@ -48,7 +46,7 @@ export default function ChatTest() {
     // 채팅방 연결 핸들러
     const handleChatConnection = () => {
         if (!selectedUser) {
-            alert("채팅할 사용자를 선택해주세요.");
+            alert('채팅할 사용자를 선택해주세요.');
             return;
         }
 

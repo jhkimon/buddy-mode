@@ -1,6 +1,8 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-    env: {
-        NEXT_PUBLIC_ZOOM_SDK_KEY: process.env.NEXT_PUBLIC_ZOOM_SDK_KEY,
+    reactStrictMode: true,
+    compiler: {
+        styledComponents: true,
     },
 };
 

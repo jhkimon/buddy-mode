@@ -20,7 +20,8 @@ const ChatBox = styled.div`
     display: inline-block;
     word-break: break-word;
     margin-left: ${(props) => (props.$styleType === 'MY' ? 'auto' : '0')}; /* 내 메시지는 오른쪽 정렬 */
-    margin-right: ${(props) => (props.$styleType === 'MY' ? '0' : 'auto')}; /* 상대방 메시지는 왼쪽 정렬 */    width: auto; /* 텍스트 크기에 맞게 조정 */
+    margin-right: ${(props) => (props.$styleType === 'MY' ? '0' : 'auto')}; /* 상대방 메시지는 왼쪽 정렬 */
+    width: auto; /* 텍스트 크기에 맞게 조정 */
 `;
 
 const TranslateButton = styled.button`
@@ -41,7 +42,7 @@ const Chat = ({ text, styleType = 'my', onTranslate }) => {
     return (
         <ChatBox $styleType={styleType}>
             {text}
-            <br/>
+            <br />
             <TranslateButton onClick={onTranslate} $styleType={styleType}>
                 번역하기
             </TranslateButton>

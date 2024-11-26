@@ -13,7 +13,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    width: 80%;
+    width: 85%;
     padding: 16px;
 `;
 
@@ -86,6 +86,7 @@ const BuddyCardSection = styled.div`
     gap: 8px;
     justify-content: flex-start;
     width: 100%;
+            
 `;
 
 const ProfileImage = ({ selectedUser, onSelectUser, handleChatConnection }) => {
