@@ -30,6 +30,7 @@ const TabContainer = styled.div.withConfig({
     color: black;
     border-bottom: 1px solid black;
     position: relative;
+    width: 100%; /* 부모 요소의 너비를 가득 채움 */
 
     /* Pseudo-element for the active section background color */
     ::after {

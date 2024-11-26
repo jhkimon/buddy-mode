@@ -13,8 +13,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    width: 100%;
-    max-width: 660px;
+    width: 80%;
     padding: 16px;
 `;
 
@@ -89,7 +88,7 @@ const BuddyCardSection = styled.div`
     width: 100%;
 `;
 
-const ProfileImage = () => {
+const ProfileImage = ({ selectedUser, onSelectUser, handleChatConnection }) => {
     return (
         <Container>
             {/* 프로필 섹션 */}
@@ -97,11 +96,20 @@ const ProfileImage = () => {
                 <ProfileContainer>
                     <ProfileImg src="/images/profile.png" alt="Profile" />
                     <ProfileInfo>
-                        <ProfileName>kentaro sakaguchi</ProfileName>
+                        <ProfileName>{selectedUser?.name || "사용자 이름"}</ProfileName>
                         <ProfileLocation>Japan</ProfileLocation>
                     </ProfileInfo>
                 </ProfileContainer>
-                <StyledButton text="프로필 보기" icon={faArrowPointer} {...BUTTON_STYLES.PURPLE_LARGE} />
+                <StyledButton
+                        text="첫 만남 요청하기"
+                        onClick={() => {
+                        console.log("버튼 클릭 이벤트 실행");
+                        if (onSelectUser) onSelectUser(selectedUser); // 사용자 선택
+                        if (handleChatConnection) handleChatConnection();
+                        }}
+                        icon={faArrowPointer}
+                        {...BUTTON_STYLES.PURPLE_LARGE}
+                        />            
             </ProfileSection>
 
             {/* 이미지 미리보기 섹션 */}

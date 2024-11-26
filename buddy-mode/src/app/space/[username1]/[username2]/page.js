@@ -174,7 +174,7 @@ export default function ChatPage({ params }) {
                         </div>
                         <Image src="/images/Online Shop.png" className={styles.onlineShop} alt="forest" width={90} height={90}/>
                         <div className={styles.shopButton}>
-                            <FlexibleButton text="상점 들어가기" icon={faStore} {...BUTTON_STYLES.BLUE_LARGE} width="80%" />
+                            <FlexibleButton text="상점 들어가기" icon={faStore} {...BUTTON_STYLES.BLUE_LARGE} width="80%" onClick={() => alert("준비중입니다!")} />
                         </div>
                     </div>
                 </div>
