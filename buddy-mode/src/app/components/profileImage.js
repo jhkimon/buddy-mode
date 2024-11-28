@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import FlexibleButton from './common/button';
-import { faArrowPointer } from '@fortawesome/free-solid-svg-icons';
+import { faArrowPointer, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import { BUTTON_STYLES } from '@/constants/buttonStyles';
 import BuddyCard from './common/buddyCard';
 import { BUDDY_CARD_STYLES } from '@/constants/buddyCardStyles';
@@ -102,13 +102,13 @@ const ProfileImage = ({ selectedUser, onSelectUser, handleChatConnection }) => {
                     </ProfileInfo>
                 </ProfileContainer>
                 <StyledButton
-                        text="첫 만남 요청하기"
+                        text="연결 요청하기"
                         onClick={() => {
                         console.log("버튼 클릭 이벤트 실행");
                         if (onSelectUser) onSelectUser(selectedUser); // 사용자 선택
                         if (handleChatConnection) handleChatConnection();
                         }}
-                        icon={faArrowPointer}
+                        icon={faArrowsRotate}
                         {...BUTTON_STYLES.PURPLE_LARGE}
                         />            
             </ProfileSection>

@@ -203,7 +203,7 @@ export default function ChatPage({ params }) {
                     <div className={styles.forestShop}>
                         <div className={styles.forestshopText}>버디 스페이스 꾸미기</div>
                         <div className={styles.shopText1}>
-                            <Image src="/images/leaf.png" className={styles.share} alt="share" width={13} height={13} />
+                            <Image src="/images/Leaf.png" className={styles.share} alt="share" width={13} height={13} />
                             Class Streak으로 아이템을 구매해서
                         </div>
                         <div className={styles.shopText2}>
