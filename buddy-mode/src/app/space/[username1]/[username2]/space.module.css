@@ -216,7 +216,7 @@
 }
 
 .buddyForest {
-    width: 267px;
+    width: 100%;
     height: 306px;
     padding: 20px;
     border-radius: 15px;
@@ -242,8 +242,8 @@
 }
 
 .forestShop {
-    margin-top: 12px;
-    width: 267px;
+    margin-top: 5%;
+    width: 100%;
     height: 268px;
     padding: 20px;
     border-radius: 15px;
@@ -256,7 +256,7 @@
     font-family: 'Paperlogy', sans-serif;
     font-size: 16px;
     margin-left: 13%;
-    margin-top: 14px;
+    margin-top: 7%;
 }
 
 .shopText1 {
