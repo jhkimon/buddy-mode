@@ -31,6 +31,8 @@ export default function VideoChatPage() {
     // 공유 화면
     const screenVideoRef = useRef(null);
     const remoteScreenVideoRef = useRef(null);
+    const [localScreenTimestamp, setLocalScreenTimestamp] = useState(0);
+    const [remoteScreenTimestamp, setRemoteScreenTimestamp] = useState(0);
 
     const router = useRouter();
 
@@ -83,16 +85,22 @@ export default function VideoChatPage() {
     useEffect(() => {
         if (screenStream && screenVideoRef.current) {
             screenVideoRef.current.srcObject = screenStream;
+            setLocalScreenTimestamp(Date.now()); // 업데이트 시간 기록
         }
-    }, [screenStream]);
+    }, [screenStream, screenVideoRef.current]);
 
     // Remote Screen Share Video Stream
     useEffect(() => {
         if (remoteScreenStream && remoteScreenVideoRef.current) {
             remoteScreenVideoRef.current.srcObject = remoteScreenStream;
+            setRemoteScreenTimestamp(Date.now()); // 업데이트 시간 기록
         }
     }, [remoteScreenStream]);
 
+    const isLocalScreenRecent = localScreenTimestamp > remoteScreenTimestamp;
+    console.log('HELP', isLocalScreenRecent);
+
+    // Debug
     useEffect(() => {
         console.log('isSharingScreen:', isSharingScreen);
         console.log('isReceivingScreenShare:', isReceivingScreenShare);
