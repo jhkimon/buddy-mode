@@ -44,14 +44,15 @@ export const useScreenShare = (senderId, roomId) => {
     }, [roomId, senderId]);
 
     const startScreenShare = async () => {
-        if (isReceivingScreenShare) {
-            console.log('Stopping receiving screen share to start sharing screen');
-            stopReceivingScreenShare();
-        }
         try {
             console.log('Attempting to start screen sharing');
             const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
             console.log('Obtained screen stream:', stream);
+
+            if (!stream) {
+                console.error('No stream obtained from getDisplayMedia');
+                return;
+            }
             setScreenStream(stream);
 
             // Create a new RTCPeerConnection for screen sharing

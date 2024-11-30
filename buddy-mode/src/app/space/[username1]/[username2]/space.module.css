@@ -11,7 +11,6 @@
     font-style: normal;
 }
 .bannerContainer {
-    margin-top: 20px;
     display: flex;
     justify-content: center;
 }
@@ -21,11 +20,12 @@
     border-radius: 10px; /* 둥근 모서리 */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
     object-fit: cover; /* 이미지 비율 유지하며 자르기 */
+    height: 10%;
 }
 
 .bannerText {
     position: absolute;
-    margin-top: -180px;
+    margin-top: -12%;
     display: flex; /* 텍스트 요소를 Flexbox로 감싸기 */
     flex-direction: column; /* 수직 정렬 */
     align-items: center; /* 가로축 중앙 정렬 */
@@ -54,7 +54,7 @@
     display: flex;
     justify-content: center; /* 아이템을 컨테이너 중앙으로 정렬 */
     align-items: flex-start; /* 상단 정렬 */
-    gap: 24px; /* 섹션 간 간격을 10px로 설정 */
+    gap: 3%; /* 섹션 간 간격을 10px로 설정 */
     width: 100%; /* 부모 컨테이너의 전체 너비 */
     margin: 0 auto; /* 페이지 중앙 정렬 */
     padding: 20px; /* 내부 여백 */
@@ -64,7 +64,7 @@
 .buddySection,
 .chatBackground,
 .buddyForestSection {
-    height: 586px;
+    height: 60vh;
     display: flex;
     flex-direction: column;
     box-sizing: border-box; /* 패딩 포함 크기 계산 */
@@ -73,9 +73,10 @@
 .buddySection {
     background-color: rgba(174, 172, 242, 0.1); /* 반투명 배경 */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    width: 267px;
-    height: 586px;
+    width: 20%;
+    height: 40%;
     padding: 20px; /* 내부 여백 */
+    border-radius: 10px;
 }
 
 .mybuddy {
@@ -91,7 +92,7 @@
     margin-left: -4%;
 }
 .profileImage {
-    margin-top: 20px;
+    margin-top: 5%;
 }
 
 .buddyInfo {
@@ -113,7 +114,8 @@
     font-family: 'Paperlogy', sans-serif;
     font-size: 16px; /* 국가 폰트 크기 */
     color: #7c7c98; /* 국가 텍스트 색상 */
-    margin-top: 8px; /* 이름과 간격 */
+    margin-top: 10%;
+    margin-bottom: -70%;
 }
 
 .lookprofile {
@@ -124,21 +126,21 @@
 }
 .calendar {
     align-self: center;
-    margin-top: 28px;
+    margin-top: 10%;
 }
 .schedule {
-    margin-top: 38px;
+    margin-top: 17%;
     font-family: 'Paperlogy', sans-serif;
     font-size: 14px;
     color: #4139fb;
     align-self: center;
 }
 .schedule img {
-    margin-bottom: -2px;
+    margin-bottom: -1%;
     margin-right: 8px; /* 이미지와 텍스트 사이 간격 */
 }
 .buttons {
-    margin-top: 20px;
+    margin-top: 8%;
     display: flex; /* Flexbox로 설정 */
     flex-direction: column; /* 세로 정렬 */
     gap: 10px; /* 아이템 간의 세로 간격 */
@@ -146,8 +148,8 @@
 
 /* 채팅 영역 */
 .chatBackground {
-    width: 364px;
-    height: 586px; /* 다른 박스와 동일한 높이 */
+    width: 25%;
+    height: 80vh; /* 다른 박스와 동일한 높이 */
     background-color: rgba(174, 172, 242, 0.1); /* 반투명 배경 */
     border-radius: 20px;
     padding: 20px; /* 내부 여백 */
@@ -162,8 +164,8 @@
 .chatContainer {
     flex: 1; /* 남은 공간을 채움 */
     overflow-y: auto; /* 세로 스크롤 가능 */
-    margin-bottom: 40px; /* 입력창과 메시지 간격 확보 */
-    padding-right: 10px; /* 스크롤바 간격 확보 */
+    margin-bottom: 5%; /* 입력창과 메시지 간격 확보 */
+    padding-right: 5%; /* 스크롤바 간격 확보 */
     box-sizing: border-box; /* 패딩 포함 크기 계산 */
     gap: 10px;
     display: flex;
@@ -180,9 +182,9 @@
 /* 입력창 */
 .chatInput {
     position: absolute; /* 부모의 상대 위치 기준 */
-    bottom: 10px; /* 아래쪽 여백 */
-    left: 20px; /* 왼쪽 여백 */
-    right: 20px; /* 오른쪽 여백 */
+    bottom: 2%; /* 아래쪽 여백 */
+    left: 6%; /* 왼쪽 여백 */
+    right: 6%; /* 오른쪽 여백 */
     display: flex;
     font-family: 'Paperlogy', sans-serif;
     align-items: center;
@@ -205,8 +207,8 @@
 }
 
 .buddyForestSection {
-    width: 267px;
-    height: 586px;
+    width: 19%;
+    height: 80vh; 
     min-height: 586px; /* 최소 높이 */
     flex-direction: column;
     display: flex;
@@ -214,10 +216,10 @@
 }
 
 .buddyForest {
-    width: 267px;
+    width: 100%;
     height: 306px;
     padding: 20px;
-    border-radius: 15%;
+    border-radius: 15px;
     background-color: rgba(231, 255, 134, 0.5);
     display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
@@ -228,24 +230,23 @@
 .forestText {
     font-family: 'Paperlogy', sans-serif;
     font-size: 16px;
-    left: -20px;
-    margin-bottom: 20px;
+    margin-left: 13%;
+    margin-bottom: 10%;
     align-self: flex-start;
-    margin-left: 34px;
 }
 
 .share {
     align-self: flex-end;
     margin-left: 60px;
-    margin-bottom: -3.5px;
+    margin-bottom: -2%;
 }
 
 .forestShop {
-    margin-top: 12px;
-    width: 267px;
+    margin-top: 5%;
+    width: 100%;
     height: 268px;
     padding: 20px;
-    border-radius: 15%;
+    border-radius: 15px;
     background-color: rgba(174, 172, 242, 0.1); /* 반투명 배경 */
     display: flex;
     flex-direction: column;
@@ -254,32 +255,34 @@
 .forestshopText {
     font-family: 'Paperlogy', sans-serif;
     font-size: 16px;
-    margin-left: 34px;
-    margin-top: 14px;
+    margin-left: 13%;
+    margin-top: 7%;
 }
 
 .shopText1 {
     font-family: 'Pretendard';
-    margin-top: 8px;
-    align-self: flex-start;
+    margin-top: 5%;
+    align-self: center;
     font-size: 11px;
-    margin-left: -30px;
 }
+.leaf{
+    margin-bottom: -2%;
+}
+
 .shopText2 {
     font-family: 'Pretendard';
     margin-top: 0;
     font-size: 11px;
-    align-self: flex-start;
-    margin-left: 30px;
+    align-self: center;
 }
 
 .onlineShop {
-    margin-top: 17px;
+    margin-top: 3%;
     align-self: center;
 }
 
 .shopButton {
-    margin-top: 8px;
+    margin-top: 8%;
     display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
